@@ -31,7 +31,17 @@ router.post("/robot/new", async (req, res, next) => {
     res.json(nr);
 });
 
-
+// Find robot by id
+router.get('/robot/:id', async function(req, res) {
+  const robotId = req.params.id;
+    let robot;
+    try {
+      robot = await Robot.find({_id: robotId});
+    } catch (error) {
+      console.log(error);
+    }
+    robot ? res.json(robot) : res.sendStatus(404);
+  });
 
 //GET /robot/name - find all robots that have query (through query params) in any part of their name. Case insensitive.
 // robots in database: 'ana', 'iva', 'ivAna', 'ivan', 'ivona'
@@ -52,17 +62,7 @@ router.get('/robot/name', async function(req, res) {
 
 });
 
-// Find robot by id
-router.get('/robot/:id', async function(req, res) {
-  const robotId = req.params.id;
-    let robot;
-    try {
-      robot = await Robot.find({_id: robotId});
-    } catch (error) {
-      console.log(error);
-    }
-    robot ? res.json(robot) : res.sendStatus(404);
-  });
+
 
 
 module.exports = router;
